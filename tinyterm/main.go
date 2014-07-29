@@ -51,6 +51,9 @@ func (w *lcdWriter) Write(buf []byte) (int, error) {
 		switch c := buf[n]; c {
 		case '\r':
 			continue
+		case '\t':
+			w.pos += 4
+			w.pos -= (w.pos % 0x4)
 		case '\n':
 			w.pos += 0x10
 			w.pos -= (w.pos % 0x10)

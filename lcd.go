@@ -15,7 +15,7 @@ const (
 	CMD_DDRAM_Set            = 0x80
 
 	// Options
-	OPT_Increment      = 0x02 // CMD_Entry_Mode
+	OPT_Increment = 0x02 // CMD_Entry_Mode
 	// OPT_Display_Shift  = 0x01 // CMD_Entry_Mode
 	OPT_Enable_Display = 0x04 // CMD_Display_Control
 	OPT_Enable_Cursor  = 0x02 // CMD_Display_Control
@@ -64,7 +64,7 @@ func NewLcd(i2c *I2C, en, rw, rs, d4, d5, d6, d7, backlight byte) (*Lcd, error) 
 	lcd.command(CMD_Display_Control | OPT_Enable_Display | OPT_Enable_Cursor)
 	lcd.command(CMD_Clear_Display)
 	lcd.command(CMD_Entry_Mode | OPT_Increment | OPT_Display_Shift)
-	
+
 	return &lcd, nil
 }
 
@@ -89,10 +89,10 @@ func (lcd *Lcd) write(data byte, command bool) {
 
 	// Add data for high nibble
 	hi_nibble := data >> 4
-	i2c_data = pinInterpret(lcd.d4, i2c_data, (hi_nibble & 0x01 == 0x01))
-	i2c_data = pinInterpret(lcd.d5, i2c_data, ((hi_nibble >> 1) & 0x01 == 0x01))
-	i2c_data = pinInterpret(lcd.d6, i2c_data, ((hi_nibble >> 2) & 0x01 == 0x01))
-	i2c_data = pinInterpret(lcd.d7, i2c_data, ((hi_nibble >> 3) & 0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d4, i2c_data, (hi_nibble&0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d5, i2c_data, ((hi_nibble>>1)&0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d6, i2c_data, ((hi_nibble>>2)&0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d7, i2c_data, ((hi_nibble>>3)&0x01 == 0x01))
 
 	// # Set the register selector to 1 if this is data
 	if !command {
@@ -106,10 +106,10 @@ func (lcd *Lcd) write(data byte, command bool) {
 
 	// Add data for high nibble
 	low_nibble := data & 0x0F
-	i2c_data = pinInterpret(lcd.d4, i2c_data, (low_nibble & 0x01 == 0x01))
-	i2c_data = pinInterpret(lcd.d5, i2c_data, ((low_nibble >> 1) & 0x01 == 0x01))
-	i2c_data = pinInterpret(lcd.d6, i2c_data, ((low_nibble >> 2) & 0x01 == 0x01))
-	i2c_data = pinInterpret(lcd.d7, i2c_data, ((low_nibble >> 3) & 0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d4, i2c_data, (low_nibble&0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d5, i2c_data, ((low_nibble>>1)&0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d6, i2c_data, ((low_nibble>>2)&0x01 == 0x01))
+	i2c_data = pinInterpret(lcd.d7, i2c_data, ((low_nibble>>3)&0x01 == 0x01))
 
 	// Set the register selector to 1 if this is data
 	if !command {
@@ -129,11 +129,9 @@ func (lcd *Lcd) BacklightOff() {
 	lcd.backlight_state = false
 }
 
-
 func (lcd *Lcd) Clear() {
 	lcd.command(CMD_Clear_Display)
 }
-
 
 func (lcd *Lcd) Home() {
 	lcd.command(CMD_Return_Home)
