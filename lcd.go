@@ -1,6 +1,7 @@
 package i2c
 
 // i2c LCD adapter
+// Adapted from http://think-bowl.com/raspberry-pi/installing-the-think-bowl-i2c-libraries-for-python/
 
 import "time"
 
