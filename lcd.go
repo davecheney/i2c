@@ -76,9 +76,9 @@ func (lcd *Lcd) enable(data byte) {
 	} else {
 		data = pinInterpret(lcd.backlight, data, false)
 	}
-	lcd.i2c.Write(data)
-	lcd.i2c.Write(pinInterpret(lcd.en, data, true))
-	lcd.i2c.Write(data)
+	lcd.i2c.WriteByte(data)
+	lcd.i2c.WriteByte(pinInterpret(lcd.en, data, true))
+	lcd.i2c.WriteByte(data)
 }
 
 func (lcd *Lcd) command(data byte) {
@@ -121,12 +121,12 @@ func (lcd *Lcd) write(data byte, command bool) {
 }
 
 func (lcd *Lcd) BacklightOn() {
-	lcd.i2c.Write(pinInterpret(lcd.backlight, 0x00, true))
+	lcd.i2c.WriteByte(pinInterpret(lcd.backlight, 0x00, true))
 	lcd.backlight_state = true
 }
 
 func (lcd *Lcd) BacklightOff() {
-	lcd.i2c.Write(pinInterpret(lcd.backlight, 0x00, false))
+	lcd.i2c.WriteByte(pinInterpret(lcd.backlight, 0x00, false))
 	lcd.backlight_state = false
 }
 
