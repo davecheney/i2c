@@ -52,7 +52,7 @@ func (i2c *I2C) Read(p []byte) (int, error) {
 }
 
 func (i2c *I2C) Close() error {
-	return i2c.Close()
+	return i2c.rc.Close()
 }
 
 func ioctl(fd, cmd, arg uintptr) (err error) {
