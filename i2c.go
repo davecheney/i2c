@@ -37,9 +37,22 @@ func New(addr uint8, bus int) (*I2C, error) {
 
 // Write sends buf to the remote i2c device. The interpretation of
 // the message is implementation dependant.
-func (i2c *I2C) Write(buf ...byte) error {
-	_, err := i2c.rc.Write(buf)
-	return err
+func (i2c *I2C) Write(buf []byte) (int, error) {
+	return i2c.rc.Write(buf)
+}
+
+func (i2c *I2C) WriteByte(b byte) (int, error) {
+	var buf [1]byte
+	buf[0] = b
+	return i2c.rc.Write(buf[:])
+}
+
+func (i2c *I2C) Read(p []byte) (int, error) {
+	return i2c.rc.Read(p)
+}
+
+func (i2c *I2C) Close() error {
+	return i2c.rc.Close()
 }
 
 func ioctl(fd, cmd, arg uintptr) (err error) {
